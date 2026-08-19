@@ -1,0 +1,15 @@
+{
+	"name": "soderlind/kjeks-google",
+	"description": "Google Tag Manager and Google Analytics 4 for Kjeks, using Consent Mode v2.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=8.3",
+		"soderlind/wordpress-github-updater": "^2.0"
+	},
+	"config": {
+		"sort-packages": true
+	},
+	"minimum-stability": "stable",
+	"prefer-stable": true
+}
