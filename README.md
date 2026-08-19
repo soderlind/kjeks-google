@@ -1,7 +1,11 @@
 # Kjeks Google
 
 Google Tag Manager and Google Analytics 4 for
-[Kjeks](../kjeks), wired through **Consent Mode v2**. Requires the Kjeks plugin.
+[Kjeks](https://github.com/soderlind/kjeks), wired through **Consent Mode v2**.
+Requires the Kjeks plugin.
+
+> Part of the **kjeks family** — an adapter over the Kjeks public API. See the
+> [kjeks ecosystem overview](https://github.com/soderlind/kjeks/blob/main/docs/architecture.md#9-ecosystem-the-kjeks-family).
 
 ## How it works
 
