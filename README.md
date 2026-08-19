@@ -7,6 +7,15 @@ Requires the Kjeks plugin.
 > Part of the **kjeks family** — an adapter over the Kjeks public API. See the
 > [kjeks ecosystem overview](https://github.com/soderlind/kjeks/blob/main/docs/architecture.md#9-ecosystem-the-kjeks-family).
 
+## Installation
+
+1. Install and activate [Kjeks](https://github.com/soderlind/kjeks) first — this add-on requires it.
+2. Download the latest [`kjeks-google.zip`](https://github.com/soderlind/kjeks-google/releases/latest/download/kjeks-google.zip).
+3. In WordPress, go to **Plugins → Add New → Upload Plugin** and upload the zip.
+4. Activate the plugin (on multisite, **Network Activate** it).
+
+The plugin updates itself automatically via GitHub releases using [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker).
+
 ## How it works
 
 Two layers keep Google inside the Kjeks consent layer (see Kjeks grilling Q7):
