@@ -26,8 +26,8 @@ Requires the Kjeks plugin.
 
 1. Install and network-activate Kjeks.
 2. Place this plugin in `wp-content/plugins/kjeks-google` and network-activate it.
-3. Set network defaults under **Network Admin → Settings → Kjeks Google**.
-4. Override per site under **Settings → Kjeks Google**.
+3. On multisite, set network defaults under **Network Admin → Settings → Kjeks Google**.
+4. Configure per site under **Settings → Kjeks Google** (the only screen on a single site).
 
 == Changelog ==
 

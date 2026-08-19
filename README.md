@@ -28,8 +28,8 @@ When the visitor changes their choice, the add-on pushes a Consent Mode
 
 ## Configuration
 
-- **Network Admin → Settings → Kjeks Google** — network defaults.
-- **Settings → Kjeks Google** — per-site overrides (blank inherits the default).
+- **Network Admin → Settings → Kjeks Google** — network defaults (multisite).
+- **Settings → Kjeks Google** — per-site overrides; blank inherits the default. On a single site this is where you configure everything.
 
 Fields: GTM container ID (`GTM-XXXXXX`), GA4 measurement ID (`G-XXXXXXX`), and
 the category that must be granted before the container loads (default
