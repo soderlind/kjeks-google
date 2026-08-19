@@ -3,7 +3,7 @@
  * Plugin Name:       Kjeks Google
  * Plugin URI:        https://github.com/soderlind/kjeks-google
  * Description:       Google Tag Manager and Google Analytics 4 for Kjeks, using Consent Mode v2. Signals default to denied and the container is withheld until consent is granted through the Kjeks consent layer.
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 6.8
  * Requires PHP:      8.3
  * Requires Plugins:  kjeks
@@ -32,6 +32,7 @@ define( 'KJEKS_GOOGLE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KJEKS_GOOGLE_URL', plugin_dir_url( __FILE__ ) );
 
 require_once KJEKS_GOOGLE_DIR . 'includes/Dependency.php';
+require_once KJEKS_GOOGLE_DIR . 'includes/GoogleTagConfig.php';
 require_once KJEKS_GOOGLE_DIR . 'includes/Settings.php';
 require_once KJEKS_GOOGLE_DIR . 'includes/ConsentMode.php';
 require_once KJEKS_GOOGLE_DIR . 'includes/Plugin.php';

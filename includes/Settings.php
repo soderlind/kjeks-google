@@ -10,9 +10,10 @@ declare(strict_types=1);
 namespace Soderlind\KjeksGoogle;
 
 /**
- * Network-default + per-site Google tag configuration.
+ * Network-default + per-site Google tag configuration — admin adapter.
  *
- * Mirrors the Kjeks model: a network default with optional per-site overrides.
+ * Reads options and renders the admin screens; resolution and id validation
+ * live in GoogleTagConfig.
  */
 final class Settings {
 
@@ -27,23 +28,7 @@ final class Settings {
 	 * @return array<string, string>
 	 */
 	public static function categories(): array {
-		return array(
-			'analytics' => __( 'Analytics', 'kjeks-google' ),
-			'marketing' => __( 'Marketing', 'kjeks-google' ),
-		);
-	}
-
-	/**
-	 * Defaults for a configuration record.
-	 *
-	 * @return array{gtm_id: string, ga4_id: string, gating_category: string}
-	 */
-	public static function defaults(): array {
-		return array(
-			'gtm_id'          => '',
-			'ga4_id'          => '',
-			'gating_category' => 'analytics',
-		);
+		return GoogleTagConfig::categories();
 	}
 
 	/**
@@ -54,7 +39,7 @@ final class Settings {
 	public function network(): array {
 		$stored = get_site_option( self::NETWORK_OPTION, array() );
 
-		return $this->normalize( is_array( $stored ) ? $stored : array(), self::defaults() );
+		return GoogleTagConfig::normalize( is_array( $stored ) ? $stored : array() );
 	}
 
 	/**
@@ -74,7 +59,11 @@ final class Settings {
 	 * @return array{gtm_id: string, ga4_id: string, gating_category: string}
 	 */
 	public function resolve(): array {
-		$config = $this->normalize( array_merge( $this->network(), $this->site_overrides() ), self::defaults() );
+		$network = get_site_option( self::NETWORK_OPTION, array() );
+		$config  = GoogleTagConfig::resolve(
+			is_array( $network ) ? $network : array(),
+			$this->site_overrides()
+		);
 
 		/**
 		 * Filters the resolved Google tag configuration.
@@ -83,36 +72,6 @@ final class Settings {
 		 * @param int                                                            $blog_id Current blog id.
 		 */
 		return (array) apply_filters( 'kjeks_google_config', $config, get_current_blog_id() );
-	}
-
-	/**
-	 * @param array<string, mixed> $values   Raw values.
-	 * @param array<string, mixed> $fallback Defaults.
-	 * @return array{gtm_id: string, ga4_id: string, gating_category: string}
-	 */
-	private function normalize( array $values, array $fallback ): array {
-		$merged   = array_merge( $fallback, $values );
-		$category = in_array( $merged['gating_category'], array_keys( self::categories() ), true )
-			? (string) $merged['gating_category']
-			: 'analytics';
-
-		return array(
-			'gtm_id'          => $this->clean_id( (string) $merged['gtm_id'], 'GTM' ),
-			'ga4_id'          => $this->clean_id( (string) $merged['ga4_id'], 'G' ),
-			'gating_category' => $category,
-		);
-	}
-
-	/**
-	 * Keeps only characters valid in a Google container/measurement id.
-	 */
-	private function clean_id( string $id, string $prefix ): string {
-		$id = strtoupper( trim( $id ) );
-		if ( '' === $id ) {
-			return '';
-		}
-
-		return preg_match( '/^' . $prefix . '-[A-Z0-9]+$/', $id ) ? $id : '';
 	}
 
 	// Admin screens.
@@ -155,7 +114,7 @@ final class Settings {
 	public function sanitize_site( mixed $input ): array {
 		$input = is_array( $input ) ? $input : array();
 
-		return $this->normalize( $input, self::defaults() );
+		return GoogleTagConfig::normalize( $input );
 	}
 
 	public function render_site_page(): void {
@@ -243,13 +202,12 @@ final class Settings {
 
 		check_admin_referer( 'kjeks_google_save_network' );
 
-		$values = $this->normalize(
+		$values = GoogleTagConfig::normalize(
 			array(
 				'gtm_id'          => sanitize_text_field( wp_unslash( $_POST['gtm_id'] ?? '' ) ),
 				'ga4_id'          => sanitize_text_field( wp_unslash( $_POST['ga4_id'] ?? '' ) ),
 				'gating_category' => sanitize_key( wp_unslash( $_POST['gating_category'] ?? 'analytics' ) ),
-			),
-			self::defaults()
+			)
 		);
 
 		update_site_option( self::NETWORK_OPTION, $values );
