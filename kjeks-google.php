@@ -49,7 +49,6 @@ if ( class_exists( \Soderlind\WordPress\GitHubUpdater::class ) ) {
 	);
 }
 
-require_once KJEKS_GOOGLE_DIR . 'includes/Dependency.php';
 require_once KJEKS_GOOGLE_DIR . 'includes/GoogleTagConfig.php';
 require_once KJEKS_GOOGLE_DIR . 'includes/Settings.php';
 require_once KJEKS_GOOGLE_DIR . 'includes/ConsentMode.php';

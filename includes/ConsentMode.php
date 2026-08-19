@@ -29,7 +29,9 @@ final class ConsentMode {
 	}
 
 	private function is_configured(): bool {
-		if ( ! Dependency::kjeks_active() ) {
+		// Cheap insurance: the Requires Plugins header normally guarantees Kjeks,
+		// but its public API could still be absent (e.g. Kjeks bailed early).
+		if ( ! function_exists( 'kjeks_register_integration' ) ) {
 			return false;
 		}
 		$config = $this->settings->resolve();

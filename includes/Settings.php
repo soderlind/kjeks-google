@@ -81,8 +81,6 @@ final class Settings {
 		add_action( 'admin_init', array( $this, 'register_site_settings' ) );
 		add_action( 'network_admin_menu', array( $this, 'network_menu' ) );
 		add_action( 'admin_post_kjeks_google_save_network', array( $this, 'save_network' ) );
-		add_action( 'admin_notices', array( Dependency::class, 'admin_notice' ) );
-		add_action( 'network_admin_notices', array( Dependency::class, 'admin_notice' ) );
 	}
 
 	public function site_menu(): void {
