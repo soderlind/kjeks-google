@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 - 2026-08-20
+
+- Drop the internal `Dependency` class in favour of a one-line `function_exists()` guard; the `Requires Plugins` header already prevents activation without Kjeks.
+- Add unit tests (Pest + Brain Monkey) covering Google tag config resolution / id validation and the settings option reads.
+
 ## 0.3.0 - 2026-08-19
 
 - Self-updates from GitHub releases via the `wordpress-github-updater` library (bundled `plugin-update-checker`). Define the optional `KJEKS_GITHUB_TOKEN` constant for private repositories or higher GitHub API rate limits.

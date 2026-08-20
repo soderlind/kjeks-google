@@ -7,7 +7,27 @@
 		"php": ">=8.3",
 		"soderlind/wordpress-github-updater": "^2.0"
 	},
+	"require-dev": {
+		"pestphp/pest": "^3.5",
+		"brain/monkey": "^2.6"
+	},
+	"autoload": {
+		"psr-4": {
+			"Soderlind\\KjeksGoogle\\": "includes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Soderlind\\KjeksGoogle\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"test": "pest"
+	},
 	"config": {
+		"allow-plugins": {
+			"pestphp/pest-plugin": true
+		},
 		"sort-packages": true
 	},
 	"minimum-stability": "stable",
