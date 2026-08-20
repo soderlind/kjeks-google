@@ -1,7 +1,21 @@
 {
 	"name": "soderlind/kjeks-google",
-	"description": "Google Tag Manager and Google Analytics 4 for Kjeks, using Consent Mode v2.",
+	"description": "Google Consent Mode v2 for Kjeks: wires GA4 and Google Tag Manager to the visitor's Kjeks consent choices.",
 	"type": "wordpress-plugin",
+	"keywords": [
+		"wordpress",
+		"wordpress-plugin",
+		"kjeks",
+		"cookie-consent",
+		"google-consent-mode",
+		"consent-mode-v2",
+		"ga4",
+		"google-analytics",
+		"gtm",
+		"google-tag-manager",
+		"gdpr",
+		"privacy"
+	],
 	"license": "GPL-2.0-or-later",
 	"require": {
 		"php": ">=8.3",
