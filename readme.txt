@@ -5,7 +5,7 @@ Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.3
 Requires Plugins: kjeks
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,11 @@ Requires the Kjeks plugin.
 4. Configure per site under **Settings → Kjeks Google** (the only screen on a single site).
 
 == Changelog ==
+
+= 0.3.2 =
+* Register the settings submenus after the core Kjeks menu so the Google pages resolve on single-site and Multisite.
+* Add a Norwegian Bokmål (nb_NO) translation and refresh the translation template.
+* Correct the readme Contributors slug to PerS.
 
 = 0.3.1 =
 * Drop the internal Dependency class in favour of a one-line function_exists() guard; the Requires Plugins header already prevents activation without Kjeks.

@@ -77,16 +77,18 @@ final class Settings {
 	// Admin screens.
 
 	public function hooks(): void {
-		add_action( 'admin_menu', array( $this, 'site_menu' ) );
+		// Priority 11: register after the core parent menu (priority 10) so the parent hookname resolves.
+		add_action( 'admin_menu', array( $this, 'site_menu' ), 11 );
 		add_action( 'admin_init', array( $this, 'register_site_settings' ) );
-		add_action( 'network_admin_menu', array( $this, 'network_menu' ) );
+		add_action( 'network_admin_menu', array( $this, 'network_menu' ), 11 );
 		add_action( 'admin_post_kjeks_google_save_network', array( $this, 'save_network' ) );
 	}
 
 	public function site_menu(): void {
-		add_options_page(
+		add_submenu_page(
+			'kjeks-network',
 			__( 'Kjeks Google', 'kjeks-google' ),
-			__( 'Kjeks Google', 'kjeks-google' ),
+			__( 'Google', 'kjeks-google' ),
 			'manage_options',
 			self::SITE_SLUG,
 			array( $this, 'render_site_page' )
@@ -152,9 +154,9 @@ final class Settings {
 
 	public function network_menu(): void {
 		add_submenu_page(
-			'settings.php',
+			'kjeks-network',
 			__( 'Kjeks Google', 'kjeks-google' ),
-			__( 'Kjeks Google', 'kjeks-google' ),
+			__( 'Google', 'kjeks-google' ),
 			'manage_network_options',
 			self::NETWORK_SLUG,
 			array( $this, 'render_network_page' )
@@ -210,7 +212,7 @@ final class Settings {
 
 		update_site_option( self::NETWORK_OPTION, $values );
 
-		wp_safe_redirect( add_query_arg( 'updated', '1', network_admin_url( 'settings.php?page=' . self::NETWORK_SLUG ) ) );
+		wp_safe_redirect( add_query_arg( 'updated', '1', network_admin_url( 'admin.php?page=' . self::NETWORK_SLUG ) ) );
 		exit;
 	}
 
