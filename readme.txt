@@ -1,5 +1,5 @@
 === Kjeks Google ===
-Contributors: soderlind
+Contributors: PerS
 Tags: cookies, consent, google, gtm, analytics
 Requires at least: 6.8
 Tested up to: 7.1
