@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2 - 2026-08-29
+
+- Register the settings submenus after the core Kjeks menu so the Google pages resolve on single-site and Multisite.
+- Add a Norwegian Bokmål (nb_NO) translation and refresh the translation template.
+- Correct the readme Contributors slug to PerS.
+
 ## 0.3.1 - 2026-08-20
 
 - Drop the internal `Dependency` class in favour of a one-line `function_exists()` guard; the `Requires Plugins` header already prevents activation without Kjeks.
