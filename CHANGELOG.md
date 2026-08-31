@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 - 2026-08-31
+
+- Move the network defaults onto the core Kjeks "Cookie Consent" screen as a "Google" tab. On Multisite, per-site overrides remain a standalone screen under Settings → Google (Kjeks).
+
 ## 0.3.2 - 2026-08-29
 
 - Register the settings submenus after the core Kjeks menu so the Google pages resolve on single-site and Multisite.

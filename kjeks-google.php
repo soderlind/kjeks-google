@@ -3,7 +3,7 @@
  * Plugin Name:       Kjeks Google
  * Plugin URI:        https://github.com/soderlind/kjeks-google
  * Description:       Google Tag Manager and Google Analytics 4 for Kjeks, using Consent Mode v2. Signals default to denied and the container is withheld until consent is granted through the Kjeks consent layer.
- * Version:           0.3.2
+ * Version:           0.4.0
  * Requires at least: 6.8
  * Requires PHP:      8.3
  * Requires Plugins:  kjeks
@@ -50,14 +50,19 @@ if ( class_exists( \Soderlind\WordPress\GitHubUpdater::class ) ) {
 }
 
 require_once KJEKS_GOOGLE_DIR . 'includes/GoogleTagConfig.php';
-require_once KJEKS_GOOGLE_DIR . 'includes/Settings.php';
 require_once KJEKS_GOOGLE_DIR . 'includes/ConsentMode.php';
-require_once KJEKS_GOOGLE_DIR . 'includes/Plugin.php';
 
 add_action(
 	'plugins_loaded',
 	static function (): void {
 		load_plugin_textdomain( 'kjeks-google', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+
+		// NetworkDefaultsTab extends a core AddonKit base class, so load these
+		// after all plugins (including Kjeks core and its autoloader) are ready.
+		require_once KJEKS_GOOGLE_DIR . 'includes/Settings.php';
+		require_once KJEKS_GOOGLE_DIR . 'includes/NetworkDefaultsTab.php';
+		require_once KJEKS_GOOGLE_DIR . 'includes/Plugin.php';
+
 		Plugin::instance()->boot();
 	}
 );

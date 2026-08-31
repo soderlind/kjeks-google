@@ -5,7 +5,7 @@ Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.3
 Requires Plugins: kjeks
-Stable tag: 0.3.2
+Stable tag: 0.4.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,9 @@ Requires the Kjeks plugin.
 4. Configure per site under **Settings → Kjeks Google** (the only screen on a single site).
 
 == Changelog ==
+
+= 0.4.0 =
+* Move the network defaults onto the core Kjeks "Cookie Consent" screen as a "Google" tab. On Multisite, per-site overrides remain a standalone screen under Settings → Google (Kjeks).
 
 = 0.3.2 =
 * Register the settings submenus after the core Kjeks menu so the Google pages resolve on single-site and Multisite.
