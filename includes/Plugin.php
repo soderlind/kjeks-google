@@ -36,5 +36,6 @@ final class Plugin {
 		$settings->hooks();
 
 		( new ConsentMode( $settings ) )->hooks();
+		( new NetworkDefaultsTab() )->hooks();
 	}
 }

@@ -20,7 +20,6 @@ final class Settings {
 	private const NETWORK_OPTION = 'kjeks_google_network';
 	private const SITE_OPTION    = 'kjeks_google';
 	public const SITE_SLUG       = 'kjeks-google';
-	public const NETWORK_SLUG    = 'kjeks-google-network';
 
 	/**
 	 * Allowed gating categories (never necessary).
@@ -77,18 +76,21 @@ final class Settings {
 	// Admin screens.
 
 	public function hooks(): void {
-		// Priority 11: register after the core parent menu (priority 10) so the parent hookname resolves.
-		add_action( 'admin_menu', array( $this, 'site_menu' ), 11 );
+		// The network defaults live on the core "Cookie Consent" tab shell (see
+		// NetworkDefaultsTab). This adapter only exposes the per-site override
+		// screen, and only on Multisite where per-site overrides apply.
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		add_action( 'admin_menu', array( $this, 'site_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_site_settings' ) );
-		add_action( 'network_admin_menu', array( $this, 'network_menu' ), 11 );
-		add_action( 'admin_post_kjeks_google_save_network', array( $this, 'save_network' ) );
 	}
 
 	public function site_menu(): void {
-		add_submenu_page(
-			'kjeks-network',
-			__( 'Kjeks Google', 'kjeks-google' ),
-			__( 'Google', 'kjeks-google' ),
+		add_options_page(
+			__( 'Google (Kjeks)', 'kjeks-google' ),
+			__( 'Google (Kjeks)', 'kjeks-google' ),
 			'manage_options',
 			self::SITE_SLUG,
 			array( $this, 'render_site_page' )
@@ -150,70 +152,6 @@ final class Settings {
 			</form>
 		</div>
 		<?php
-	}
-
-	public function network_menu(): void {
-		add_submenu_page(
-			'kjeks-network',
-			__( 'Kjeks Google', 'kjeks-google' ),
-			__( 'Google', 'kjeks-google' ),
-			'manage_network_options',
-			self::NETWORK_SLUG,
-			array( $this, 'render_network_page' )
-		);
-	}
-
-	public function render_network_page(): void {
-		if ( ! current_user_can( 'manage_network_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'kjeks-google' ) );
-		}
-
-		$network = $this->network();
-		?>
-		<div class="wrap">
-			<h1><?php esc_html_e( 'Kjeks Google — network defaults', 'kjeks-google' ); ?></h1>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-				<input type="hidden" name="action" value="kjeks_google_save_network" />
-				<?php wp_nonce_field( 'kjeks_google_save_network' ); ?>
-				<table class="form-table" role="presentation">
-					<tr>
-						<th><label for="kg-net-gtm"><?php esc_html_e( 'GTM container ID', 'kjeks-google' ); ?></label></th>
-						<td><input class="regular-text" id="kg-net-gtm" name="gtm_id" type="text" value="<?php echo esc_attr( $network['gtm_id'] ); ?>" placeholder="GTM-XXXXXX" /></td>
-					</tr>
-					<tr>
-						<th><label for="kg-net-ga4"><?php esc_html_e( 'GA4 measurement ID', 'kjeks-google' ); ?></label></th>
-						<td><input class="regular-text" id="kg-net-ga4" name="ga4_id" type="text" value="<?php echo esc_attr( $network['ga4_id'] ); ?>" placeholder="G-XXXXXXX" /></td>
-					</tr>
-					<tr>
-						<th><label for="kg-net-cat"><?php esc_html_e( 'Load container when this category is granted', 'kjeks-google' ); ?></label></th>
-						<td><?php $this->category_select( 'kg-net-cat', 'gating_category', $network['gating_category'] ); ?></td>
-					</tr>
-				</table>
-				<?php submit_button( __( 'Save network defaults', 'kjeks-google' ) ); ?>
-			</form>
-		</div>
-		<?php
-	}
-
-	public function save_network(): void {
-		if ( ! current_user_can( 'manage_network_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to do this.', 'kjeks-google' ) );
-		}
-
-		check_admin_referer( 'kjeks_google_save_network' );
-
-		$values = GoogleTagConfig::normalize(
-			array(
-				'gtm_id'          => sanitize_text_field( wp_unslash( $_POST['gtm_id'] ?? '' ) ),
-				'ga4_id'          => sanitize_text_field( wp_unslash( $_POST['ga4_id'] ?? '' ) ),
-				'gating_category' => sanitize_key( wp_unslash( $_POST['gating_category'] ?? 'analytics' ) ),
-			)
-		);
-
-		update_site_option( self::NETWORK_OPTION, $values );
-
-		wp_safe_redirect( add_query_arg( 'updated', '1', network_admin_url( 'admin.php?page=' . self::NETWORK_SLUG ) ) );
-		exit;
 	}
 
 	private function category_select( string $id, string $name, string $current ): void {
